@@ -4,7 +4,7 @@ const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const router = express.Router();
+const bodyParser = require('body-parser');
 const port = utilityService.getPort();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -31,6 +31,7 @@ var corsOptions = {
 
 app.options(cors());
 app.use(cors(corsOptions));
+app.use(bodyParser.json());
 
 //#region Api Routes
 app.use('/getToken', getTokenRoute);
