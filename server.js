@@ -22,6 +22,7 @@ const swaggerSpec = swaggerJsdoc({
 
 //#region Api Routes
 const getTokenRoute = require('./apiList/getToken');
+const createUserRoute = require('./apiList/createUser');
 //#endregion Api Routes
 
 var corsOptions = {
@@ -35,6 +36,7 @@ app.use(bodyParser.json());
 
 //#region Api Routes
 app.use('/getToken', getTokenRoute);
+app.use('/createUser', createUserRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //#endregion Api Routes
 
