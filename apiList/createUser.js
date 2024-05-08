@@ -38,7 +38,7 @@ router.post('/', function (req, res, next) {
             Name: req.body.Name,
             Email: req.body.Email,
             Password: hash,
-            role: req.body.Role,
+            Role: req.body.Role,
             IsSystemBlocked: false
         }
 
