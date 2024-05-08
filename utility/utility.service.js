@@ -23,7 +23,7 @@ var utilityService = {
         return dbConifg;
     },
     getOrigin: function () {
-        var origin = "http://localhost:4000/";
+        var origin = "http://localhost:4200";
         return origin;
     },
     getPort: function () {
