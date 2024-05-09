@@ -304,10 +304,9 @@ var dbconnection = {
       return db.collection('Users').findOne({ "Email": email }).then(function (result) {
         var userInfo = {
           "id": result._id,
-          "FirstName": result.FirstName,
-          "LastName": result.LastName,
+          "Name": result.Name,
           "Email": result.Email,
-          "Mobile": result.Mobile
+          "Role": result.Role
         };
         var token = jwt.sign({
           exp: Math.floor(Date.now() / 1000) + (60 * 60),
