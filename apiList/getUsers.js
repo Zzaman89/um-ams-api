@@ -25,7 +25,7 @@ var utilityService = require("../utility/utility.service");
  *                 type: number
  *     responses:
  *       200:
- *         description: Creates a user into the system
+ *         description: Gets a list of users
 */
 router.post('/',
     body('Limit').notEmpty().withMessage('Limit cannot be empty'),
