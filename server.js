@@ -10,19 +10,33 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
 const swaggerSpec = swaggerJsdoc({
-    definition: {
-        openapi: '3.0.0',
+    swaggerDefinition: {
+        openapi: '3.0.1',
         info: {
             title: 'UM AMS API',
-            version: '1.0.0',
+            version: '1.0.0'
         },
+        basePath: '/',
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                }
+            }
+        },
+        security: [{
+            bearerAuth: []
+        }]
     },
-    apis: ['./apiList/*.js'],
+    apis: ['./apiList/*.js']
 });
 
 //#region Api Routes
 const getTokenRoute = require('./apiList/getToken');
 const createUserRoute = require('./apiList/createUser');
+const getUserRoute = require('./apiList/getUsers');
 //#endregion Api Routes
 
 var corsOptions = {
@@ -37,6 +51,7 @@ app.use(bodyParser.json());
 //#region Api Routes
 app.use('/getToken', getTokenRoute);
 app.use('/createUser', createUserRoute);
+app.use('/getUsers', getUserRoute)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //#endregion Api Routes
 
