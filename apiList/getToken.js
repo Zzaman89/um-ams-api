@@ -18,9 +18,11 @@ var dbconnection = require('../db/dbconnection');
  *             type: object
  *             properties:
  *               Email:
- *                 type: string
+ *                 type: string,
+ *                 example: 'admin@umams.com'
  *               Password:
  *                 type: string
+ *                 example: '1234'
  *     responses:
  *       200:
  *         description: Returns a valid token
