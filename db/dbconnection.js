@@ -169,6 +169,19 @@ var dbconnection = {
       return false;
     });
   },
+  deleteUser: function (id) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Users').deleteOne({ _id: id },).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
   getUsers: function (limit, skip) {
     return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
       var db = client.db(database);

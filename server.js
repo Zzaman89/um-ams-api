@@ -38,6 +38,7 @@ const getTokenRoute = require('./apiList/getToken');
 const createUserRoute = require('./apiList/createUser');
 const getUserRoute = require('./apiList/getUsers');
 const updateUserRoute = require('./apiList/updateUser');
+const deleteUserRoute = require('./apiList/deleteUser');
 //#endregion Api Routes
 
 var corsOptions = {
@@ -54,6 +55,7 @@ app.use('/getToken', getTokenRoute);
 app.use('/createUser', createUserRoute);
 app.use('/getUsers', getUserRoute);
 app.use('/updateUser', updateUserRoute);
+app.use('/deleteUser', deleteUserRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //#endregion Api Routes
 
