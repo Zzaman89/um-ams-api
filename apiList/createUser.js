@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { body, validationResult } = require('express-validator');
@@ -53,7 +52,7 @@ router.post('/',
                 Name: req.body.Name,
                 Email: req.body.Email,
                 Password: hash,
-                Role: req.body.Role,    
+                Role: req.body.Role,
                 IsSystemBlocked: false
             }
 

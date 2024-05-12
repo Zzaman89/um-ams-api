@@ -146,12 +146,42 @@ var dbconnection = {
       return false;
     });
   },
+  updateUser: function (id, name, email, role) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Users').updateOne(
+        { _id: id },
+        {
+          $set:
+          {
+            Name: name,
+            Email: email,
+            Role: role
+          }
+        }
+      ).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
   getUsers: function (limit, skip) {
     return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
       var db = client.db(database);
       return db.collection('Users').find({}).limit(limit).skip(skip).toArray().then(function (result) {
         client.close();
-        return result;
+        return result.map(x => {
+          return {
+            _id: x._id,
+            Name: x.Name,
+            Email: x.Email,
+            Role: x.Role
+          }
+        });
       }).catch(function (error) {
         return false;
       })
