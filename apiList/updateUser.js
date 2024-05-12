@@ -19,13 +19,17 @@ var utilityService = require("../utility/utility.service");
  *           schema:
  *             type: object
  *             properties:
- *               Limit:
- *                 type: number
- *               Skip:
- *                 type: number
+ *               id:
+ *                 id: string
+ *               Name:
+ *                 type: string
+ *               Email:
+ *                 type: string
+ *               Role:
+ *                 type: string
  *     responses:
  *       200:
- *         description: Gets a list of users
+ *         description: Updates a user by user id
 */
 router.post('/',
     body('id').notEmpty().withMessage('Id cannot be empty'),
