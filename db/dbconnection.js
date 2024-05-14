@@ -201,7 +201,20 @@ var dbconnection = {
     }).catch(function (error) {
       return false;
     });
-  }
+  },
+  createMeeting: function (data) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Meetings').insertOne(data).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    })
+  },
 }
 
 module.exports = dbconnection;
