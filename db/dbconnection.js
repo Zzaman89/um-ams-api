@@ -215,6 +215,19 @@ var dbconnection = {
       return false;
     })
   },
+  getMeetings: function (start, end) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Meetings').find({ StartingDate: { "$gte": start }, EndingDate: { "$lte": end } }).toArray().then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
 }
 
 module.exports = dbconnection;
