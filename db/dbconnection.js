@@ -236,6 +236,7 @@ var dbconnection = {
         {
           $set:
           {
+            Title: data.Title,
             Description: data.Description,
             StartingDate: data.StartingDate,
             EndingDate: data.EndingDate,
@@ -244,6 +245,19 @@ var dbconnection = {
           }
         }
       ).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
+  deleteMeeting: function (id) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Meetings').deleteOne({ _id: id },).then(function (result) {
         client.close();
         return result;
       }).catch(function (error) {

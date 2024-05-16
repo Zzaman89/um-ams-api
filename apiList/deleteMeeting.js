@@ -9,9 +9,9 @@ var utilityService = require("../utility/utility.service");
 
 /**
  * @swagger
- * /updateMeeting:
+ * /deleteMeeting:
  *   post:
- *     summary: update meetings
+ *     summary: Get Users
  *     requestBody:
  *       required: true
  *       content:
@@ -19,31 +19,13 @@ var utilityService = require("../utility/utility.service");
  *           schema:
  *             type: object
  *             properties:
- *               Id:
- *                 type: string
- *                 example: 'ec630cea-bfcf-bacb-a40f-f13d417f1e05'
- *               Title:
- *                 type: string
- *               StartingDate:
- *                 type: string
- *               EndingDate:
- *                 type: string
- *               InvitedUsers:
- *                 type: array
- *               MeetingLink:
- *                 type: string
- *                 example: 'https://meet.google.com/rjq-moip-hcj'
- *     responses:
+ *               id:
+ *                 id: string
  *       200:
- *         description: Update a meeting
+ *         description: Delete a meeting by meeting Id
 */
 router.post('/',
-    body('_id').notEmpty().withMessage('_id cannot be empty'),
-    body('Title').notEmpty().withMessage('Title cannot be empty'),
-    body('StartingDate').isISO8601().notEmpty().withMessage('StartingDate cannot be empty'),
-    body('EndingDate').isISO8601().notEmpty().withMessage('EndingDate cannot be empty'),
-    body('MeetingLink').notEmpty().withMessage('EndingDate cannot be empty'),
-    body('InvitedUsers').isArray().withMessage('InvitedUsers should be a array of users '),
+    body('id').notEmpty().withMessage('Id cannot be empty'),
     function (req, res, next) {
 
         const errors = validationResult(req);
@@ -74,20 +56,11 @@ router.post('/',
                             message: 'Token is not valid'
                         });
                     } else {
-                        var data = {
-                            Title: req.body.Title,
-                            Description: req.body.Description,
-                            StartingDate: req.body.StartingDate,
-                            EndingDate: req.body.EndingDate,
-                            InvitedUsers: req.body.InvitedUsers,
-                            MeetingLink: req.body.MeetingLink
-                        }
-
-                        dbconnection.updateMeeting(req.body._id, data).then(function (response) {
+                        dbconnection.deleteMeeting(req.body.id).then(function (response) {
                             res.status(200).json({
                                 "IsValid": true,
                                 "Data": response
-                            })
+                            });
                         });
                     }
                 });
