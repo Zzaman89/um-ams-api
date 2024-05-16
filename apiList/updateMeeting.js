@@ -9,9 +9,9 @@ var utilityService = require("../utility/utility.service");
 
 /**
  * @swagger
- * /createMeeting:
+ * /updateMeeting:
  *   post:
- *     summary: create meetings
+ *     summary: update meetings
  *     requestBody:
  *       required: true
  *       content:
@@ -19,6 +19,9 @@ var utilityService = require("../utility/utility.service");
  *           schema:
  *             type: object
  *             properties:
+ *               Id:
+ *                 type: string
+ *                 example: 'ec630cea-bfcf-bacb-a40f-f13d417f1e05'
  *               Title:
  *                 type: string
  *               StartingDate:
@@ -29,11 +32,13 @@ var utilityService = require("../utility/utility.service");
  *                 type: array
  *               MeetingLink:
  *                 type: string
+ *                 example: 'https://meet.google.com/rjq-moip-hcj'
  *     responses:
  *       200:
- *         description: Create a meeting
+ *         description: Update a meeting
 */
 router.post('/',
+    body('Id').notEmpty().withMessage('Id cannot be empty'),
     body('Title').notEmpty().withMessage('Title cannot be empty'),
     body('StartingDate').isISO8601().notEmpty().withMessage('StartingDate cannot be empty'),
     body('EndingDate').isISO8601().notEmpty().withMessage('EndingDate cannot be empty'),
@@ -70,21 +75,18 @@ router.post('/',
                         });
                     } else {
                         var data = {
-                            _id: utilityService.guIdGenarator(),
                             Title: req.body.Title,
-                            CreatedByUserId: decoded.data.id,
-                            CreatedByUserName: decoded.data.Name,
                             Description: req.body.Description,
                             StartingDate: req.body.StartingDate,
                             EndingDate: req.body.EndingDate,
                             InvitedUsers: req.body.InvitedUsers,
                             MeetingLink: req.body.MeetingLink
                         }
-                        
-                        dbconnection.createMeeting(data).then(function (response) {
+
+                        dbconnection.updateMeeting(req.body.Id, data).then(function (response) {
                             res.status(200).json({
                                 "IsValid": true,
-                                "Data": data
+                                "Data": response
                             })
                         });
                     }

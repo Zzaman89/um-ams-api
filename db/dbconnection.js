@@ -228,6 +228,31 @@ var dbconnection = {
       return false;
     });
   },
+  updateMeeting: function (id, data) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Meetings').updateOne(
+        { _id: id },
+        {
+          $set:
+          {
+            Description: data.Description,
+            StartingDate: data.StartingDate,
+            EndingDate: data.EndingDate,
+            InvitedUsers: data.InvitedUsers,
+            MeetingLink: data.MeetingLink
+          }
+        }
+      ).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
 }
 
 module.exports = dbconnection;

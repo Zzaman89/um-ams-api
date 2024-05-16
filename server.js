@@ -41,6 +41,7 @@ const updateUserRoute = require('./apiList/updateUser');
 const deleteUserRoute = require('./apiList/deleteUser');
 const createMeetingRoute = require('./apiList/createMeeting');
 const getMeetingsRoute = require('./apiList/getMeetings');
+const updateMeetingRoute = require('./apiList/updateMeeting');
 //#endregion Api Routes
 
 var corsOptions = {
@@ -60,6 +61,7 @@ app.use('/updateUser', updateUserRoute);
 app.use('/deleteUser', deleteUserRoute);
 app.use('/createMeeting', createMeetingRoute);
 app.use('/getMeetings', getMeetingsRoute);
+app.use('/updateMeeting', updateMeetingRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //#endregion Api Routes
 
