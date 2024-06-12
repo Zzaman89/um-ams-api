@@ -293,6 +293,77 @@ var dbconnection = {
       return false;
     });
   },
+  getReportsById: function (id) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Reports').find({ _id: id }).toArray().then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
+  updateReport: function (id, data) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Reports').updateOne(
+        { _id: id },
+        {
+          $set:
+          {
+            Title: data.Title,
+            Description: data.Description,
+            RequestedAssessor: data.RequestedAssessor,
+            FileLink: data.FileLink
+          }
+        }
+      ).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
+  updateReportStatus: function (id, status) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Reports').updateOne(
+        { _id: id },
+        {
+          $set:
+          {
+            Status: status
+          }
+        }
+      ).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
+  deleteReport: function (id) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Reports').deleteOne({ _id: id },).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
+  },
 }
 
 module.exports = dbconnection;

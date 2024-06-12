@@ -9,9 +9,9 @@ var utilityService = require("../utility/utility.service");
 
 /**
  * @swagger
- * /updateMeeting:
+ * /updateReport:
  *   post:
- *     summary: update meetings
+ *     summary: Update report by reportId
  *     requestBody:
  *       required: true
  *       content:
@@ -19,18 +19,16 @@ var utilityService = require("../utility/utility.service");
  *           schema:
  *             type: object
  *             properties:
- *               _id:
+ *               Id:
  *                 type: string
- *                 example: 'ec630cea-bfcf-bacb-a40f-f13d417f1e05'
+ *                 example: 'fc3672d7-ecc9-4a7f-4d72-00417d283087'
  *               Title:
  *                 type: string
- *               StartingDate:
- *                 type: string
- *               EndingDate:
- *                 type: string
- *               InvitedUsers:
+ *               RequestedAssessor:
  *                 type: array
- *               MeetingLink:
+ *               Description:
+ *                 type: string
+ *               FileLink:
  *                 type: string
  *                 example: 'https://meet.google.com/rjq-moip-hcj'
  *     responses:
@@ -40,10 +38,8 @@ var utilityService = require("../utility/utility.service");
 router.post('/',
     body('_id').notEmpty().withMessage('_id cannot be empty'),
     body('Title').notEmpty().withMessage('Title cannot be empty'),
-    body('StartingDate').isISO8601().notEmpty().withMessage('StartingDate cannot be empty'),
-    body('EndingDate').isISO8601().notEmpty().withMessage('EndingDate cannot be empty'),
-    body('MeetingLink').notEmpty().withMessage('EndingDate cannot be empty'),
-    body('InvitedUsers').isArray().withMessage('InvitedUsers should be a array of users '),
+    body('FileLink').notEmpty().withMessage('FileLink cannot be empty'),
+    body('RequestedAssessor').isArray().withMessage('RequestedAssessor should be a array of users '),
     function (req, res, next) {
 
         const errors = validationResult(req);
@@ -77,13 +73,11 @@ router.post('/',
                         var data = {
                             Title: req.body.Title,
                             Description: req.body.Description,
-                            StartingDate: req.body.StartingDate,
-                            EndingDate: req.body.EndingDate,
-                            InvitedUsers: req.body.InvitedUsers,
-                            MeetingLink: req.body.MeetingLink
+                            RequestedAssessor: req.body.RequestedAssessor,
+                            FileLink: req.body.FileLink
                         }
 
-                        dbconnection.updateMeeting(req.body._id, data).then(function (response) {
+                        dbconnection.updateReport(req.body._id, data).then(function (response) {
                             res.status(200).json({
                                 "IsValid": true,
                                 "Data": response
