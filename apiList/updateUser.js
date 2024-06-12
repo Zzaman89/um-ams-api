@@ -11,7 +11,7 @@ var utilityService = require("../utility/utility.service");
  * @swagger
  * /updateUser:
  *   post:
- *     summary: Get Users
+ *     summary: Update users
  *     requestBody:
  *       required: true
  *       content:

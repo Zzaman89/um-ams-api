@@ -9,7 +9,7 @@ var utilityService = require("../utility/utility.service");
 
 /**
  * @swagger
- * /getMeetings:
+ * /getReports:
  *   post:
  *     summary: Get reports
  *     requestBody:
@@ -19,17 +19,17 @@ var utilityService = require("../utility/utility.service");
  *           schema:
  *             type: object
  *             properties:
- *               StartingDate:
- *                 type: string
- *               EndingDate:
- *                 type: string
+ *               Limit:
+ *                 type: number
+ *               Skip:
+ *                 type: number
  *     responses:
  *       200:
- *         description: Gets a list of meetings
+ *         description: Gets a list of users
 */
 router.post('/',
-    body('StartingDate').isISO8601().notEmpty().withMessage('StartingDate cannot be empty'),
-    body('EndingDate').isISO8601().notEmpty().withMessage('EndingDate cannot be empty'),
+    body('Limit').notEmpty().withMessage('Limit cannot be empty'),
+    body('Skip').notEmpty().withMessage('Skip cannot be empty'),
     function (req, res, next) {
 
         const errors = validationResult(req);
@@ -60,7 +60,7 @@ router.post('/',
                             message: 'Token is not valid'
                         });
                     } else {
-                        dbconnection.getMeetings(req.body.StartingDate, req.body.EndingDate).then(function (response) {
+                        dbconnection.getReports(req.body.Limit, req.body.Skip).then(function (response) {
                             res.status(200).json({
                                 "IsValid": true,
                                 "Data": response
