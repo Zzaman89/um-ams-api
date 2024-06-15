@@ -296,7 +296,7 @@ var dbconnection = {
   getReportsById: function (id) {
     return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
       var db = client.db(database);
-      return db.collection('Reports').find({ _id: id }).toArray().then(function (result) {
+      return db.collection('Reports').findOne({ _id: id }).then(function (result) {
         client.close();
         return result;
       }).catch(function (error) {
