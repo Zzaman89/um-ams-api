@@ -364,6 +364,44 @@ var dbconnection = {
       return false;
     });
   },
+  getDashboardStatistics: function () {
+    const userQuery = [
+      {
+        $group: {
+          _id: "$Role",
+          count: { $sum: 1 }
+        }
+      }
+    ];
+
+    const reportQuery = [
+      {
+        $group: {
+          _id: '$CreatedDate',
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ];
+
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(async function (client) {
+      var db = client.db(database);
+      var userData = await db.collection('Users').aggregate(userQuery).toArray();
+      var reportData = await db.collection('Reports').aggregate(reportQuery).toArray();
+      var reports = await db.collection('Reports').find().limit(5).sort({ CreatedDate: 1 }).project({ Title: 1, CreatedByUserName: 1 }).toArray();
+      var meetings = await db.collection('Meetings').find().limit(5).sort({ StartingDate: 1 }).project({ Title: 1, CreatedByUserName: 1 }).toArray();
+
+      client.close();
+      return {
+        userData: userData,
+        reportData: reportData,
+        reports: reports,
+        meetings: meetings
+      }
+    }).catch(function (error) {
+      return false;
+    });
+  },
 }
 
 module.exports = dbconnection;
