@@ -17,7 +17,7 @@ var utilityService = {
     },
     getDbConfig: function () {
         var dbConifg = {
-            url: "mongodb://localhost:27017",
+            url: "mongodb://127.0.0.1:27017",
             database: '8836d0ce-d3c9-407b-bf72-4fce8d501244'
         }
         return dbConifg;
