@@ -437,7 +437,7 @@ var dbconnection = {
   createNotification: function (data) {
     return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
       var db = client.db(database);
-      return db.collection('Notification').insertOne(data).then(function (result) {
+      return db.collection('Notifications').insertOne(data).then(function (result) {
         client.close();
         return result;
       }).catch(function (error) {
@@ -446,6 +446,19 @@ var dbconnection = {
     }).catch(function (error) {
       return false;
     })
+  },
+  getNotifications: function (id) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Notifications').find({ Permission: { $in: [id] } }).sort({ Time: -1 }).toArray().then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    });
   },
 }
 
