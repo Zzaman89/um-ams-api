@@ -283,9 +283,15 @@ var dbconnection = {
   getReports: function (limit, skip) {
     return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
       var db = client.db(database);
-      return db.collection('Reports').find({}).limit(limit).skip(skip).toArray().then(function (result) {
-        client.close();
-        return result;
+      return db.collection('Reports').find({}).limit(limit).skip(skip).toArray().then((result) => {
+        return db.collection('Reports').countDocuments().then(count => {
+          const response = {
+            Data: result,
+            Total: count
+          }
+          client.close();
+          return response;
+        });
       }).catch(function (error) {
         return false;
       })
@@ -398,6 +404,32 @@ var dbconnection = {
         reports: reports,
         meetings: meetings
       }
+    }).catch(function (error) {
+      return false;
+    });
+  },
+  createComment: function (data) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Comments').insertOne(data).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    })
+  },
+  getComments: function (id) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Comments').find({ EntityId: id }).sort({ Time: -1 }).toArray().then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
     }).catch(function (error) {
       return false;
     });

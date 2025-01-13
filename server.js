@@ -49,7 +49,9 @@ const getReportByIdRoute = require('./apiList/getReportById');
 const updateReportRoute = require('./apiList/updateReport');
 const deleteReportRoute = require('./apiList/deleteReport');
 const updateReportStatusRoute = require('./apiList/updateReportStatus');
-const getDashboardStatisticsRoute = require('./apiList/getDashboardStatistics')
+const getDashboardStatisticsRoute = require('./apiList/getDashboardStatistics');
+const createCommentRoute = require('./apiList/createComment');
+const getCommentsRoute = require('./apiList/getComments');
 //#endregion Api Routes
 
 var corsOptions = {
@@ -78,6 +80,8 @@ app.use('/updateReport', updateReportRoute);
 app.use('/deleteReport', deleteReportRoute);
 app.use('/updateReportStatus', updateReportStatusRoute);
 app.use('/getDashboardStatistics', getDashboardStatisticsRoute);
+app.use('/createComment', createCommentRoute);
+app.use('/getComments', getCommentsRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //#endregion Api Routes
 
