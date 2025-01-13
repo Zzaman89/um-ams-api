@@ -52,6 +52,7 @@ const updateReportStatusRoute = require('./apiList/updateReportStatus');
 const getDashboardStatisticsRoute = require('./apiList/getDashboardStatistics');
 const createCommentRoute = require('./apiList/createComment');
 const getCommentsRoute = require('./apiList/getComments');
+const createNotificationRoute = require('./apiList/createNotification');
 //#endregion Api Routes
 
 var corsOptions = {
@@ -82,6 +83,7 @@ app.use('/updateReportStatus', updateReportStatusRoute);
 app.use('/getDashboardStatistics', getDashboardStatisticsRoute);
 app.use('/createComment', createCommentRoute);
 app.use('/getComments', getCommentsRoute);
+app.use('/createNotification', createNotificationRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //#endregion Api Routes
 

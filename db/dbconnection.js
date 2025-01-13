@@ -434,6 +434,19 @@ var dbconnection = {
       return false;
     });
   },
+  createNotification: function (data) {
+    return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
+      var db = client.db(database);
+      return db.collection('Notification').insertOne(data).then(function (result) {
+        client.close();
+        return result;
+      }).catch(function (error) {
+        return false;
+      })
+    }).catch(function (error) {
+      return false;
+    })
+  },
 }
 
 module.exports = dbconnection;
