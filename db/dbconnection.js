@@ -186,14 +186,15 @@ var dbconnection = {
     return MongoClient.connect(url, { useNewUrlParser: true }).then(function (client) {
       var db = client.db(database);
       return db.collection('Users').find({}).limit(limit).skip(skip).toArray().then(function (result) {
-        client.close();
-        return result.map(x => {
-          return {
-            _id: x._id,
-            Name: x.Name,
-            Email: x.Email,
-            Role: x.Role
+        return db.collection('Users').countDocuments().then(count => {
+          const data = result.map(x => { return { _id: x._id, Name: x.Name, Email: x.Email, Role: x.Role } });
+          const response = {
+            Data: data,
+            Total: count
           }
+
+          client.close();
+          return response;
         });
       }).catch(function (error) {
         return false;
