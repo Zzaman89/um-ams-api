@@ -395,8 +395,8 @@ var dbconnection = {
       var db = client.db(database);
       var userData = await db.collection('Users').aggregate(userQuery).toArray();
       var reportData = await db.collection('Reports').aggregate(reportQuery).toArray();
-      var reports = await db.collection('Reports').find().limit(5).sort({ CreatedDate: 1 }).project({ Title: 1, CreatedByUserName: 1 }).toArray();
-      var meetings = await db.collection('Meetings').find().limit(5).sort({ StartingDate: 1 }).project({ Title: 1, CreatedByUserName: 1 }).toArray();
+      var reports = await db.collection('Reports').find().limit(5).sort({ CreatedDate: -1 }).project({ Title: 1, CreatedByUserName: 1 }).toArray();
+      var meetings = await db.collection('Meetings').find().limit(5).sort({ StartingDate: -1 }).project({ Title: 1, CreatedByUserName: 1 }).toArray();
 
       client.close();
       return {
